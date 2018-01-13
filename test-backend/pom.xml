@@ -1,0 +1,90 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>br.com.system</groupId>
+	<artifactId>test-backend</artifactId>
+	<version>1.0</version>
+	<packaging>pom</packaging>
+
+	<!-- Modulos -->
+	<modules>
+		<module>test-backend-ejb</module>
+		<module>test-backend-web</module>
+		<module>test-backend-ear</module>
+	</modules>
+
+	<properties>
+		<!-- Enconding -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<!-- Versao: Java -->
+		<java-source.version>1.8</java-source.version>
+		<java-target.version>1.8</java-target.version>
+		
+		<!-- Versao: Logs -->
+		<slf4j.version>1.7.25</slf4j.version>
+		
+		<!-- Versao: Hibernate / JPA -->
+		<hibernate.version>5.2.10.Final</hibernate.version>
+		<hibernate-entitymanager.version>${hibernate.version}</hibernate-entitymanager.version>
+		<hibernate-core.version>${hibernate.version}</hibernate-core.version>
+
+		<!-- Versao:: JUnit -->
+		<junit.version>4.12</junit.version>
+
+		<!-- Versao: Componentes do Maven -->
+		<maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
+		<maven-ejb-plugin.version>2.5.1</maven-ejb-plugin.version>
+		<maven-war-plugin.version>3.1.0</maven-war-plugin.version>
+		<maven-ear-plugin.version>2.10.1</maven-ear-plugin.version>
+
+		<!-- Versao: Java EE -->
+		<javaee-api.version>7.0</javaee-api.version>
+
+		<!-- Versao: EJB -->
+		<ejb.version>3.2</ejb.version>
+
+		<!-- Versao: JSF -->
+		<jsf-api.version>2.1</jsf-api.version>
+
+		<!-- Versao: JSF Primefaces -->
+		<primefaces.version>6.1</primefaces.version>
+		<primefaces-all-themes.version>1.0.10</primefaces-all-themes.version>
+
+		<!-- Versao: EAR -->
+		<ear.version>7</ear.version>
+		
+		<!-- Versao: Jackson -->
+		<jackson.version>2.9.3</jackson.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>${javaee-api.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler-plugin.version}</version>
+				<configuration>
+					<source>${java-source.version}</source>
+					<target>${java-target.version}</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

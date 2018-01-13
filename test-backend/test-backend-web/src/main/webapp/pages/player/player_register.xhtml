@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+	<!-- Pagina de Cadastro do Jogador -->
+	<ui:composition template="/template/template.xhtml">
+		<ui:define name="content">
+			<h:form id="idFormPlayerRegister">
+			<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-5" styleClass="ui-panelgrid-blank">
+				<p:outputLabel value="Cadastro do Jogador UOL" style="font-size:24px; font-weight: bold;" />
+				<br/>
+
+				<p:outputLabel for="idName" value="Nome:" />
+				<p:inputText id="idName" value="#{playerRegisterMB.player.name}" maxlength="100" />
+				<br/>
+
+				<p:outputLabel for="idEmail" value="E-mail:" />
+				<p:inputText id="idEmail" value="#{playerRegisterMB.player.email}" maxlength="150" />
+				<br/>
+
+				<p:outputLabel for="idTelephone" value="Telefone:" />
+				<p:inputMask id="idTelephone" value="#{playerRegisterMB.player.telephone}" maxlength="15" />
+				<br/><br/>
+
+				<p:outputLabel value="Quero ser do grupo:" style="font-size:20px; font-weight: bold;" />
+				<p:selectOneRadio layout="grid" columns="1" value="#{playerRegisterMB.player.group}">
+					<f:selectItem itemLabel="Liga da Justiça" itemValue="Liga da Justiça" />
+					<f:selectItem itemLabel="Os Vingadores" itemValue="Vingadores" />
+				</p:selectOneRadio>
+				<br/>
+
+				<!-- Comandos -->
+				<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank">
+					<p:commandButton value="Cadastrar" actionListener="#{playerRegisterMB.savePlayer}" />
+					<p:commandButton value="Listar Jogadores" action="#{playerRegisterMB.listPlayers}" />
+				</p:panelGrid>
+			</p:panelGrid>
+		</h:form>
+		</ui:define>
+	</ui:composition>
+</html>

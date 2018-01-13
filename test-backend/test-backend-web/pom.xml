@@ -1,0 +1,77 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>test-backend-web</artifactId>
+	<packaging>war</packaging>
+	
+	<parent>
+		<groupId>br.com.system</groupId>
+		<artifactId>test-backend</artifactId>
+		<version>1.0</version>
+	</parent>
+
+	<!-- Dependencias -->
+	<dependencies>
+		<dependency>
+			<groupId>br.com.system</groupId>
+			<artifactId>test-backend-ejb</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.primefaces</groupId>
+			<artifactId>primefaces</artifactId>
+			<version>${primefaces.version}</version>
+		</dependency>
+		<dependency>
+			<!-- https://repository.primefaces.org/org/primefaces/themes/ -->
+			<groupId>org.primefaces.themes</groupId>
+			<artifactId>all-themes</artifactId>
+			<version>${primefaces-all-themes.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-xml</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>${maven-war-plugin.version}</version>
+				<configuration>
+					<failOnMissingWebXml>true</failOnMissingWebXml>
+					<warSourceDirectory>src/main/webapp</warSourceDirectory>
+					<webResources>
+						<resource>
+							<filtering>true</filtering>
+							<directory>src/main/webapp</directory>
+							<includes>
+								<include>**/web.xml</include>
+							</includes>
+						</resource>
+					</webResources>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	
+	<!-- Repositorios -->
+	<repositories>
+		<repository>
+			<id>prime-repo</id>
+	   		<name>PrimeFaces Maven Repository</name>
+	   		<url>http://repository.primefaces.org</url>
+	 		<layout>default</layout>
+		</repository>
+	</repositories>
+</project>
