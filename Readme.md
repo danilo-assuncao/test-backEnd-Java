@@ -1,89 +1,94 @@
-Sobre o UOL HOST
-===============
-O UOL HOST oferece soluções em hospedagem de sites, loja virtual, loja de aplicativos, revenda de hospedagem, registro de domí­nios, e-mail marketing, cloud computing, entre outros, contando com a confiabilidade e a escalabilidade de uma moderna infraestrutura de TI, composta por uma das maiores redes de Data Centers da América Latina.
+# TEST-BACKEND
 
-## Teste para BackEnd para UOL HOST
-Montamos este teste para conhecer seus conhecimentos e habilidades em linguagem Java, programação orientada a objetos e boas práticas de programação.
+A aplicação consiste em um sistema Web que visa resolver o exercício: **Teste para BackEnd para UOL HOST**, que propôs a seguinte arquitetura como modelo para implementação do desafio:
 
-O teste consiste em montar uma aplicação Java capaz de recuperar informações de um arquivo XML e de um arquivo JSON, persistir um cadastro em um banco de dados em memória ou em arquivo e listar os cadastros em uma interface simples.
+![enter image description here](https://raw.githubusercontent.com/uolhost/test-backEnd-Java/master/referencias/arquitetura.png)
 
-## Proposta 
+O aplicativo foi criado utilizando diversos recursos do Java EE para demonstração. Este sistema é constituído por quatro projetos (pom, ear, ejb e web). Abaixo segue a descrição de cada um deles respectivamente:
 
-O 'novo' sistema de cadastro de jogadores do UOL precisa de uma nova cara! Isso porque a área de lazer da empresa definiu que todo jogador deverá ter um codinome. A proposta foi um sucesso e muitos candidatos se inscreveram, por isso a área de lazer acabou restringindo os codinomes em duas listas distintas: "Os Vingadores" e "A Liga da Justiça".
+- **test-backend**: projeto **pom**, responsável por organizar todos os outros projetos, dependências comuns e versionamento de APIs utilizadas também nos outros projetos.
+- **test-backend-ear**: projeto **ear**, responsável por empacotar o projeto em um arquivo *.ear (Enterprise Application aRchive), que irá compor a aplicação e que será depositado no servidor de aplicação para que a aplicação possa ser executada.
+- **test-backend-ejb**: projeto **ejb**, responsável por concentra todas as regras de negócio estabelecidas para as entidades.
+- **test-backend-web**: projeto **web**, contém a camada de controle e visualização da aplicação.
 
-Seu desafio é elaborar um sistema em Java capaz de:
+# Requisitos da aplicação
+- Wildfly 10.1.0.Final ou superior.
+- HSQLDB (HyperSQL DataBase) 2.4.0 ou superior.
 
-1. Permitir o cadastro de jogadores de acordo com os codinomes contidos nos links de referência vingadores.json e liga_da_justica.xml
-2. Apresentar um cadastro contendo nome, e-mail e telefone do jogador (sendo que nome e e-mail são obrigatórios)
-3. Persistir a informação cadastrada em um banco de dados em memória, como HSQLDB ou arquivo
-4. Obter, a qualquer momento, a lista de todos os jogadores cadastrados com seus respectivos codinomes e também a informação de qual lista o codinome foi extraído
-5. Impedir a utilização de um mesmo codinome para diferentes usuários (a menos que o codinome seja para listas diferentes)
-6. Incluir o codinome escolhido dentro das listas Os Vingadores ou A Liga da Justiça
-7. Obrigatoriamente, ler a informação do codinome em arquivos na internet (links abaixo). Atenção: não vale guardar a informação do codinome localmente (em um arquivo, em uma classe, em um banco de dados etc.)
+# Configurando a aplicação
 
-## Arquitetura de referência
+Primeiro devemos configurar os arquivos necessários para que o Wildfly execute a aplicação normalmente. Antes de tudo, devemos ajustar os arquivos necessários para que o HSQLDB funcione corretamente com o Wildfly, para isto, devemos ter em posse o driver deste banco de dados.
 
-![alt text](https://raw.githubusercontent.com/uolhost/test-backEnd-Java/master/referencias/arquitetura.png)
+No diretório do Wildfly **`modules\system\layers\base\org`** deverá ser criado o diretório **`hsqldb`** e um subdiretório **`main`** ficando:
+> \modules\system\layers\base\org\hsqldb\main
 
-## Links dos arquivos de referência
-https://raw.githubusercontent.com/uolhost/test-backEnd-Java/master/referencias/liga_da_justica.xml
-https://raw.githubusercontent.com/uolhost/test-backEnd-Java/master/referencias/vingadores.json
+No diretório *main*, devemos depositar o arquivo **`*.jar`** correspondente ao driver do *HSQLDB* na versão 2.4.0 ou superior e o seu respectivo arquivo `module.xml`.
 
-### Casos de uso
+> O diretório *main* deverá possuir os seguintes arquivos:
+> - module.xml
+> - driver-name.jar (**driver-name** deve ser alterado)
 
-+ Cadastro com sucesso:
-	1. O usuário 'Felipe' cadastra seu nome, e-mail e telefone, e escolhe a lista vingadores.json
-	2. O sistema recebe o cadastro e verifica se há codinomes disponíveis na lista vingadores.json
-	3. O sistema encontra um codinome livre e o escolhe
-	4. O sistema persiste nome, e-mail, telefone, codinome e arquivo de referência em um banco de dados em memória ou em um arquivo
-	5. O sistema informa que o usuário foi cadastrado corretamente e mostra uma imagem de sucesso
-	
-+ Lista escolhida não tem codinomes disponíveis:
-	1. O usuário 'João' cadastra seu nome, e-mail e telefone, e escolhe a lista liga_da_justica.xml
-	2. O sistema recebe o cadastro e verifica se há codinomes disponíveis na lista liga_da_justica.xml
-	3. O sistema não encontra um codinome livre
-	4. O sistema informa que aquela lista não possui mais usuários disponíveis
+## Conteúdo do arquivo *module.xml*
 
-+ Relatório de usuários cadastrados:
-	1. O usuário 'Luís' clica em “Visualizar relatório de jogadores”
-	2. O sistema consulta o banco de dados em memória ou em arquivo
-	3. O sistema apresenta todos os usuários cadastrados. Cada linha tem as informações: nome, e-mail, telefone, codinome e arquivo referência
-	
-## Instruções
+Crie um arquivo XML vazio e adicione o conteúdo exibido abaixo:
 
-Não há certo ou errado. Queremos apenas saber mais sobre seus conhecimentos na linguagem Java, como uso de bibliotecas públicas, e também seu cuidado com o código fonte, levando em consideração clareza de ideias, organização de código, documentação e testes.
+    <?xml version="1.0" encoding="UTF-8"?>
+    <module xmlns="urn:jboss:module:1.1" name="org.hsqldb">
+        <resources>
+            <resource-root path="driver-name.jar"/>
+        </resources>
+        <dependencies>
+        <module name="javax.api"/>
+    	<module name="javax.transaction.api"/>
+        </dependencies>
+    </module>
 
-**Faça um fork e um clone deste projeto, crie um branch (com seu nome) e siga os seguintes passos:**
+> No conteúdo: **`resource-root path="driver-name.jar`** o valor de **`driver-name`** deve possuir o nome do driver do banco de dados HSQLDB.
 
-1. Faça um fork do projeto e desenvolva um sistema que atenda os casos de uso apresentados
-2. Para montar seu sistema, leve em consideração a arquitetura de referência dentro da pasta referência
-3. Criar uma interface em HTML que contenha um formulário para receber nome, e-mail e telefone
-4. Criar uma interface em HTML que liste os jogadores cadastrados por nome, e-mail, telefone, codinome e lista de referência
-5. Criar uma ou mais classes que faça(m) uma requisição HTTP para o arquivo referência “Liga da Justiça” em: https://raw.githubusercontent.com/uolhost/test-backEnd-Java/master/referencias/liga_da_justica.xml
-6. Criar uma ou mais classes que faça(m) uma requisição HTTP para o arquivo referência “Os Vingadores” em: https://raw.githubusercontent.com/uolhost/test-backEnd-Java/master/referencias/vingadores.json
-7. Criar uma ou mais classes que contenha(m) as regras para persistir e recuperar cadastros de jogadores
-8. Documente como o projeto deve ser iniciado para que possamos rodar sua aplicação
-9. Faça o pull request do seu projeto
+## Configurando o arquivo: *standalone.xml* ou *standalone-full.xml*
 
-## Regras
-1. Você poderá utilizar o Java em qualquer versão :)
-2. Você poderá utilizar quaisquer frameworks da linguagem Java :)
-3. Para persistir as informações, você poderá utilizar um banco de dados em memória gerenciado por você ou utilizar um banco, como HSQLDB.
-4. Você também pode optar por gravar em arquivo.
-5. Não vale utilizar o codinome de um mesmo arquivo mais de uma vez.
-6. Detalhes como criação de testes unitários, ordenação da lista de cadastrados ou filtro da lista são opcionais. Mas, se você fizer iremos apreciar! =)
+No elemento <**datasources**> deve ser adicionado o seguinte **datasource**:
 
-## O que apreciamos
-* Organização;
-* Simplicidade;
-* Objetividade;
-* Reúso de código;
-* Testes unitários;
-* Padronização de código;
-* Padrões de projeto;
+	<datasource jndi-name="java:jboss/datasources/test_backend_java" pool-name="test_backend_java" enabled="true">
+		<connection-url>jdbc:hsqldb:file:caminho_banco/nome_banco</connection-url>
+		<driver>hsqldb</driver>
+	    <pool>
+	        <min-pool-size>10</min-pool-size>
+            <max-pool-size>100</max-pool-size>
+        </pool>
+        <security>
+			<user-name>seu_usuario</user-name>
+			<password>sua_senha</password>
+		</security>
+		<validation>
+			<validate-on-match>false</validate-on-match>
+			<background-validation>false</background-validation>
+		</validation>
+		<statement>
+			<prepared-statement-cache-size>0</prepared-statement-cache-size>
+			<share-prepared-statements>false</share-prepared-statements>
+		</statement>
+	</datasource>
 
-## Quem buscamos
-Queremos uma pessoa que goste do que faz, trabalhe em equipe e tenha vontade de inovar, buscando sempre atualização e soluções inovadoras.
+>  Na declaração **`jdbc:hsqldb:file:caminho_banco/nome_banco`** no elemento **`connection-url`** o valor de *caminho_banco* e *nome_banco* devem ser alterados para o caminho onde está localizado os arquivos do banco de dados HSQLDB. Para criação do arquivos do HSQLDB segue um ótimo link contendo todos o passo a passo: https://www.tutorialspoint.com/hsqldb/hsqldb_installation.htm
 
-Se você se identificou, venha fazer parte do nosso time!
+> Na declaração <**user-name**> e <**password**> devem possuir respectivamente o usuário e senha que foi configurado ao criar os arquivos do banco de dados HSQLDB.
 
+No elemento <**drivers**> deve ser adicionado o seguinte **driver**:
+
+	<drivers>
+		<driver name="hsqldb" module="org.hsqldb">
+			<xa-datasource-class>org.hsqldb.jdbc.JDBCDataSource</xa-datasource-class>
+		</driver>
+	</drivers>
+
+# Executando a aplicação
+
+Existem duas maneiras de executar este sistema:
+- IDE: através de um ambiente para desenvolvimento em Java é possível importar todos os projetos maven, gerar seus pacotes e importar o arquivo *.ear para o servidor de aplicação (exemplo: Wildfly). Este aplicativo foi desenvolvido utilizando o **Eclipse**.
+- Gerando o pacote *.ear executando os comandos `clear package` com o maven. Após a geração, no exemplo do Wildfly, basta inserir o pacote gerado no diretório `standalone\deployments` e executar o servidor de aplicação.
+
+O context-root deste aplicativo é `/test-backend`. Para acessar o sistema, por exemplo, localmente em seu computador onde o mesmo está sendo executado em um servidor de aplicação (Wildfly), basta inserir no navegador a seguinte URL
+> http://localhost:8080/test-backend
+
+Onde `localhost` é o endereço de IP e `8080` é a porta onde o servidor de aplicação está sendo executado.

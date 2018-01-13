@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+	<!-- Pagina de Listagem dos Jogadores Cadastrados -->
+	<ui:composition template="/template/template.xhtml">
+		<ui:define name="content">
+			<h:form id="idFormPlayerList">
+				<p:accordionPanel>
+					<p:tab title="Pesquisar Jogadores">
+						<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" >
+							<p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank" >
+								<p:outputLabel value="Pesquisar Por" for="idOMSearch" />
+								<p:selectOneMenu id="idOMSearch" value="#{playerListMB.selectedSearch}" >
+									<p:ajax listener="#{playerListMB.onChangeOMSearch}" event="change" update="idPanelCriterionSearch" /> 
+									<f:selectItem itemLabel="(Todos)" itemValue="0" />
+									<f:selectItem itemLabel="Nome" itemValue="1" />
+									<f:selectItem itemLabel="E-mail" itemValue="2" />
+									<f:selectItem itemLabel="Telefone" itemValue="3" />
+									<f:selectItem itemLabel="Codinome" itemValue="4" />
+									<f:selectItem itemLabel="Grupo" itemValue="5" />
+								</p:selectOneMenu>
+							</p:panelGrid>
+							
+							<!-- Painel com os componentes para inserção dos critérios de pesquisa -->
+							<p:panelGrid id="idPanelCriterionSearch" columns="1" layout="grid" styleClass="ui-panelgrid-blank">
+								<p:outputLabel value="#{playerListMB.titleFieldCriterion}" for="idITCriterion" rendered="#{playerListMB.renderFieldCriterion}" />
+								<p:inputText id="idITCriterion" value="#{playerListMB.valueSearch}" rendered="#{playerListMB.renderFieldCriterion}" />
+							</p:panelGrid>
+						</p:panelGrid>
+						
+						<!-- Botão para executar a pesquisa do jogador -->
+						<p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank" >
+							<p:panelGrid columns="1" columnClasses="ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
+								<p:commandButton value="Pesquisar" action="#{playerListMB.searchPlayer}" update="idFormPlayerList:idDataTablePlayers, idPanelCriterionSearch" />
+							</p:panelGrid>
+						</p:panelGrid>
+					</p:tab>
+				</p:accordionPanel>
+				<br/>
+				
+				<p:dataTable id="idDataTablePlayers" 
+					value="#{playerListMB.players}" 
+					var="player" 
+					sortBy="#{player.name}"
+					reflow="true"
+					rows="10"
+					paginator="true"
+					paginatorPosition="bottom"
+					rowsPerPageTemplate="10,20,30,40,50"
+					emptyMessage="" >
+					
+					<!-- Col: Nome -->
+					<p:column headerText="Nome" sortBy="#{player.name}" >
+						<h:outputText value="#{player.name}" />
+					</p:column>
+					
+					<!-- Col: Nome -->
+					<p:column headerText="E-mail" sortBy="#{player.email}" >
+						<h:outputText value="#{player.email}" />
+					</p:column>
+					
+					<!-- Col: Nome -->
+					<p:column headerText="Telefone" sortBy="#{player.telephone}" >
+						<h:outputText value="#{player.telephone}" />
+					</p:column>
+					
+					<!-- Col: Nome -->
+					<p:column headerText="Codinome" sortBy="#{player.codename}" >
+						<h:outputText value="#{player.codename}" />
+					</p:column>
+					
+					<!-- Col: Nome -->
+					<p:column headerText="Grupo" sortBy="#{player.group}" >
+						<h:outputText value="#{player.group}" />
+					</p:column>
+					
+					<!-- Botão: Excluir -->
+					<p:column width="5%" style="text-align: center;" >
+						<p:commandLink title="Excluir" action="#{playerListMB.removePlayer}" update="idDataTablePlayers" >
+							<i class="fa fa-close cor-vermelho" />
+							<f:setPropertyActionListener value="#{player}" target="#{playerListMB.selectedPlayer}" />
+							<p:confirm header="Confirmação" message="Deseja retirar #{player.name} do time #{player.group}?" icon="ui-icon-alert" />
+						</p:commandLink>
+					</p:column>
+				</p:dataTable>
+				<br/><br/>
+				
+				<!-- Botão para volta a tela de cadastro -->
+				<p:commandButton value="Novo Jogador" action="#{playerListMB.newPlayer}" />
+
+				<!-- Diálogo de confirmação -->
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			        <p:commandButton value="Expulsá-lo" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			        <p:commandButton value="Melhor não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			    </p:confirmDialog>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</html>
