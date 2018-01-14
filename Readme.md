@@ -38,8 +38,8 @@ Crie um arquivo XML vazio e adicione o conteúdo exibido abaixo:
             <resource-root path="driver-name.jar"/>
         </resources>
         <dependencies>
-        <module name="javax.api"/>
-    	<module name="javax.transaction.api"/>
+            <module name="javax.api"/>
+            <module name="javax.transaction.api"/>
         </dependencies>
     </module>
 
@@ -49,26 +49,26 @@ Crie um arquivo XML vazio e adicione o conteúdo exibido abaixo:
 
 No elemento <**datasources**> deve ser adicionado o seguinte **datasource**:
 
-	<datasource jndi-name="java:jboss/datasources/test_backend_java" pool-name="test_backend_java" enabled="true">
-		<connection-url>jdbc:hsqldb:file:caminho_banco/nome_banco</connection-url>
-		<driver>hsqldb</driver>
-	    <pool>
-	        <min-pool-size>10</min-pool-size>
+    <datasource jndi-name="java:jboss/datasources/test_backend_java" pool-name="test_backend_java" enabled="true">
+        <connection-url>jdbc:hsqldb:file:caminho_banco/nome_banco</connection-url>
+        <driver>hsqldb</driver>
+        <pool>
+            <min-pool-size>10</min-pool-size>
             <max-pool-size>100</max-pool-size>
         </pool>
         <security>
-			<user-name>seu_usuario</user-name>
-			<password>sua_senha</password>
-		</security>
-		<validation>
-			<validate-on-match>false</validate-on-match>
-			<background-validation>false</background-validation>
-		</validation>
-		<statement>
-			<prepared-statement-cache-size>0</prepared-statement-cache-size>
-			<share-prepared-statements>false</share-prepared-statements>
-		</statement>
-	</datasource>
+            <user-name>seu_usuario</user-name>
+            <password>sua_senha</password>
+        </security>
+        <validation>
+            <validate-on-match>false</validate-on-match>
+            <background-validation>false</background-validation>
+        </validation>
+        <statement>
+            <prepared-statement-cache-size>0</prepared-statement-cache-size>
+            <share-prepared-statements>false</share-prepared-statements>
+        </statement>
+    </datasource>
 
 >  Na declaração **`jdbc:hsqldb:file:caminho_banco/nome_banco`** no elemento **`connection-url`** o valor de *caminho_banco* e *nome_banco* devem ser alterados para o caminho onde está localizado os arquivos do banco de dados HSQLDB. Para criação do arquivos do HSQLDB segue um ótimo link contendo todos o passo a passo: https://www.tutorialspoint.com/hsqldb/hsqldb_installation.htm
 
@@ -76,11 +76,11 @@ No elemento <**datasources**> deve ser adicionado o seguinte **datasource**:
 
 No elemento <**drivers**> deve ser adicionado o seguinte **driver**:
 
-	<drivers>
-		<driver name="hsqldb" module="org.hsqldb">
-			<xa-datasource-class>org.hsqldb.jdbc.JDBCDataSource</xa-datasource-class>
-		</driver>
-	</drivers>
+    <drivers>
+        <driver name="hsqldb" module="org.hsqldb">
+            <xa-datasource-class>org.hsqldb.jdbc.JDBCDataSource</xa-datasource-class>
+        </driver>
+    </drivers>
 
 # Executando a aplicação
 
