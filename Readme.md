@@ -43,7 +43,7 @@ Crie um arquivo XML vazio e adicione o conteúdo exibido abaixo:
         </dependencies>
     </module>
 
-> No conteúdo: **`resource-root path="driver-name.jar`** o valor de **`driver-name`** deve possuir o nome do driver do banco de dados HSQLDB.
+> No linha: **`resource-root path="driver-name.jar`** o valor de **`driver-name`** deve possuir o nome do driver do banco de dados HSQLDB.
 
 ## Configurando o arquivo: *standalone.xml* ou *standalone-full.xml*
 
